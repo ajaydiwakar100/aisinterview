@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Category;
 use Validator;
 use Image;
+use Auth;
 
 
 
@@ -22,6 +23,16 @@ class DashboardController extends Controller
         $this->middleware('auth');
     }
 
+
+    /**
+     * Show the application login.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+   
+
+
+
     /**
      * Show the application dashboard.
      *
@@ -30,10 +41,17 @@ class DashboardController extends Controller
    
     public function index()
     {
-        $Category = Category::count();
-        $Product = Product::count();
+        if(Auth::user()){
+    
+            $Category = Category::count();
+            $Product = Product::count();
+            return view('home',compact('Category','Product')); 
 
-        return view('home',compact('Category','Product')); 
+        }else{
+
+            return view('auth.login');             
+        }
+
     }
 
 
